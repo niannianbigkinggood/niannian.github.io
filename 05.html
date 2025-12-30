@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给喵喵的跨年邀请</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background-color: #fef7fb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(255, 170, 200, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+        .title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #e64398;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            display: none;
+        }
+        .emoji {
+            font-size: 55px;
+            margin-bottom: 30px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #acceptBtn {
+            background-color: #ff99cc;
+            color: #fff;
+        }
+        #refuseBtn {
+            background-color: #ffccdd;
+            color: #e64398;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title" id="mainTitle">黏黏向你发送了一封跨年邀请</div>
+        <div class="subtitle" id="subTitle">祝喵喵元旦快乐！</div>
+        <div class="emoji" id="emoji">🥺</div>
+        <div class="btn-group">
+            <button id="acceptBtn">接受</button>
+            <button id="refuseBtn">拒绝</button>
+        </div>
+    </div>
+
+    <script>
+        // 获取页面元素
+        const mainTitle = document.getElementById('mainTitle');
+        const subTitle = document.getElementById('subTitle');
+        const emoji = document.getElementById('emoji');
+        const acceptBtn = document.getElementById('acceptBtn');
+        const refuseBtn = document.getElementById('refuseBtn');
+        const container = document.querySelector('.container');
+
+        // 初始化拒绝按钮参数
+        let clickCount = 0;
+        const initialWidth = refuseBtn.offsetWidth;
+        const initialHeight = refuseBtn.offsetHeight;
+        const initialFontSize = 16;
+
+        // 拒绝按钮点击事件：随机位移+逐步缩小
+        refuseBtn.addEventListener('click', function() {
+            clickCount++;
+            // 计算缩放比例，每次缩小10%
+            const scale = 1 - 0.1 * clickCount;
+            this.style.width = initialWidth * scale + 'px';
+            this.style.height = initialHeight * scale + 'px';
+            this.style.fontSize = initialFontSize * scale + 'px';
+
+            // 限制按钮在容器内随机位置，避免超出屏幕
+            const containerW = container.offsetWidth;
+            const containerH = container.offsetHeight;
+            const btnW = this.offsetWidth;
+            const btnH = this.offsetHeight;
+            const randomX = Math.random() * (containerW - btnW * 2) + btnW;
+            const randomY = Math.random() * (containerH - btnH * 2) + btnH;
+            
+            this.style.position = 'absolute';
+            this.style.left = randomX + 'px';
+            this.style.top = randomY + 'px';
+        });
+
+        // 接受按钮点击事件
+        acceptBtn.addEventListener('click', function() {
+            // 修改文本和表情
+            mainTitle.textContent = '感谢喵喵';
+            subTitle.style.display = 'block';
+            emoji.textContent = '😊';
+            // 隐藏拒绝按钮
+            refuseBtn.style.display = 'none';
+            // 按钮改为返回，添加返回功能
+            this.textContent = '返回';
+            this.addEventListener('click', function() {
+                window.history.back();
+            });
+        });
+    </script>
+</body>
+</html>
